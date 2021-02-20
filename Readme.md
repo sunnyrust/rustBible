@@ -28,3 +28,4 @@
 ## 提纲
 ## 一、Rust语言基础 
 #### 1）[Rust语言简介](books/01.md) 
+#### 2）[Hello Rust 牛转乾坤！](books/02.md) 
