@@ -33,3 +33,5 @@
 #### [2.1 Hello Rust 牛转乾坤！](books/02.md) 
 
 #### [2.2 Rust IDE简介](books/03.md) 
+
+#### [2.3 Hello, Cargo!](books/04.md) 
