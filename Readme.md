@@ -35,3 +35,5 @@
 #### [2.2 Rust IDE简介](books/03.md) 
 
 #### [2.3 Hello, Cargo!](books/04.md) 
+
+#### [2.4 Rust 注释](books/05.md) 
