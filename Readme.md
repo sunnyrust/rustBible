@@ -37,3 +37,5 @@
 #### [2.3 Hello, Cargo!](books/04.md) 
 
 #### [2.4 Rust 注释](books/05.md) 
+
+#### [2.5 简单程序——我是一个锈菌](books/06.md) 
