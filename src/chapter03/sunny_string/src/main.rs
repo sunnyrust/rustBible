@@ -4,7 +4,7 @@ fn show(s: &str) {
 
 fn main() {
     let mut sunny_string = String::from("Hello, world!");
-    sunny_string += "Rustaceans";
+    sunny_string += "Rustacean";
     println!("{}", sunny_string);
     println!("size of &str: {}", std::mem::size_of::<&str>());
     println!("size of &[u8]: {}", std::mem::size_of::<&[u8]>());
@@ -27,6 +27,28 @@ fn main() {
     println!("utf_x_hex: {:b}", utf_x_hex);
     println!("utf_x_bin: 0x{:x}", utf_x_bin);
 
-    let str_sunny = String::from("I'm a Rustaceans!");
+    let str_capacity = String::from("I'm a Rustacean!💖");
+    println!("I'm a Rustacean!💖  Capacity:{}", str_capacity.capacity()); //I'm a Rustacean!💖  Capacity:20
+
+    let str_capacity = String::from("I'm a Rustacean!💖");
+    println!("I'm a Rustacean!💖  is_empty:{}", str_capacity.is_empty()); //I'm a Rustacean!💖  is_empty:false
+
+    let str_sunny = String::from("I'm a Rustacean!");
     show(&str_sunny);
+
+    let mut str_source = String::from("I'm a Rustacean"); //一定要是mut这种可变类型
+    let char = '!';
+    str_source.push(char);
+    println!("{}", str_source);
+
+    let s: std::string::String = "I'm a ".to_string();
+    let message = s + "Rustacean!💖";
+    println!("{}", message);
+
+    let str_source = String::from("I'm a ");  
+    let str_tail = "Rustacean!💖";
+    
+    let str_source = str_source + &str_tail.to_string();
+    println!("{}",str_source);
+
 }
