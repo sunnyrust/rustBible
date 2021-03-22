@@ -9,5 +9,14 @@ fn main() {
     let ipv6 = IpAddr::V6(String::from("::1"));
     println!("{:?}\n{:?}",ipv4,ipv6);//V4(127, 0, 0, 1) 
                                      //V6("::1")
+    let _food: Option<String> = Some("Hotdog🌭".to_string());                                     
+
+    let x:i8=3;
+    let y:Option<i8>=Some(5);
+
+    let sum=x+y;
+
+    
+
 }
 
