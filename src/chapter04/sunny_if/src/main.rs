@@ -1,3 +1,7 @@
 fn main() {
-    println!("Hello, world!");
+    let number = 3;
+
+    if number {
+        println!("number was three");
+    }
 }
