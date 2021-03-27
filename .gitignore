@@ -1,0 +1,12 @@
+target/*
+
+*
+!.gitignore
+!*.md
+!Cargo.toml
+!*.rs
+!*.jpeg
+!*.jpg
+!*.png
+!*/
+sun
