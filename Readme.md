@@ -64,9 +64,9 @@
 
 ### [4.2 for](books/4.2.md)
 
-### [4.3 loop](books/4.3.md)
+### [4.3 while](books/4.3.md)
 
-### [4.4 while](books/4.4.md)
+### [4.4 loop](books/4.4.md)
 
 ### [4.5 所有权](books/4.5.md)
 
