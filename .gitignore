@@ -8,5 +8,9 @@ target/*
 !*.jpeg
 !*.jpg
 !*.png
+<<<<<<< HEAD
 !*/
 sun
+=======
+!*/
+>>>>>>> bf6451a3c57dff7152face9b321c3f4ce2648a07
