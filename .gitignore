@@ -6,6 +6,7 @@ target/*
 !Cargo.toml
 !*.rs
 !*.jpeg
+!*.svg
 !*.jpg
 !*.png
 !*/
