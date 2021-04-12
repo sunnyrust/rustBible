@@ -26,7 +26,7 @@
   &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 一套完整的ABI（比如：Intel Binary Compatibility Standard (iBCS)），可以让程序在所有支持该ABI的系统上运行，而无需对程序进行修改。
 
 ## 提纲
-## 一、Rust语言基础 
+## 一、勿在浮沙筑高台——Rust语言基础 
 ### 1）[Rust语言简介](books/01.md) 
 
 ### 2）初识Rust
@@ -40,7 +40,7 @@
 
 #### [2.5 简单程序——我是一个锈菌](books/06.md) 
 
-## 二、勿在浮沙筑高台
+## 二、斜阳草树，寻常巷陌，人道寄奴曾住。
 
 ### [3.1 Rust的常见编程概念](books/3.1.md)
 
@@ -73,3 +73,26 @@
 ### [4.6 引用和借用](books/4.6.md)
 
 ### [4.7 match](books/4.7.md)
+
+## 四、屠龙绝艺岂世用，仪凤至业非公专。——出自韩维《招景仁饮》
+
+### [5.1 struct 高阶教程](books/5.1.md)
+
+### [5.2 Rust 工程管理](books/5.2.md)
+
+### [5.3 错误处理](books/5.3.md)
+
+### [5.4 Rust 泛型与特性](books/5.4.md)
+
+### [5.5 Module 基础](books/5.5.md)
+
+### [5.6 Module 使用](books/5.6.md)
+
+### [5.7 闭包](books/5.7.md)
+
+### [5.  单元测试用例](books/5.8.md)
+
+### [5.  宏](books/5.9.md)
+
+### [5.  ](books/5..md)
+

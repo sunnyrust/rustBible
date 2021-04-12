@@ -8,4 +8,8 @@ fn main() {
 
 fn calculate_length(s: &String) -> usize {
     s.len()
+    change(&s);
+}
+fn change(some_string: &String) {
+    some_string.push_str(", world");
 }
