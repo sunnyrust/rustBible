@@ -1,9 +1,11 @@
 fn main() {
-    let s = String::from("hello");
+    let sunny_str = String::from("I am a Rustaceans!🍇");
 
-    change(&s);
+    let len = calculate_length(&sunny_str);
+
+    println!("'{}' 的长度是{}。", sunny_str, len);
 }
 
-fn change(some_string: &String) {
-    some_string.push_str(", world");
+fn calculate_length(s: &String) -> usize {
+    s.len()
 }
