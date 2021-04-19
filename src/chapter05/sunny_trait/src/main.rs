@@ -1,8 +1,8 @@
-pub struct Circle {
+struct Circle {
     pub radius: f64,
 }
 
-pub trait Shape {
+trait Shape {
     fn area(&self) -> f64;
     // trait 可以提供默认的方法定义。
     fn show_area(&self) {
@@ -11,15 +11,30 @@ pub trait Shape {
 }
 
 impl Circle {
-    pub fn get_radius(&self) -> &f64 {
+    #[allow(dead_code)]
+   fn get_radius(&self) -> &f64 {
         &self.radius
     }
 
-    pub fn set_radius(&mut self, r: f64) {
+    fn set_radius(&mut self, r: f64) {
         self.radius = r;
     }
 }
 
+impl  Shape for Circle {
+    fn area(&self) -> f64{
+        std::f64::consts::PI*self.radius*self.radius
+    }
+}
+
+
 fn main() {
-    println!("Hello, world!");
+    let  mut  c=Circle{
+        radius:3f64
+    };
+    // c.set_radius(5f64);
+    let area=c.area();
+    println!("面积= {}", area);
+    c.set_radius(9.1f64);
+    c.show_area();
 }
