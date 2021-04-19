@@ -84,13 +84,9 @@
 
 ### [5.3 Rust 泛型](books/5.3.md)
 
-### [5.4 特性](books/5.4.md)
+### [5.4 特性(trait)](books/5.4.md)
 
-### [5.5 Module 基础](books/5.5.md)
-
-### [5.6 Module 使用](books/5.6.md)
-
-### [5.7 闭包](books/5.7.md)
+### [5.5 闭包(Closure)](books/5.5.md)
 
 ### [5.8  单元测试用例](books/5.8.md)
 
