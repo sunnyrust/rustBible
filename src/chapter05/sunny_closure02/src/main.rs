@@ -3,23 +3,6 @@ fn call_func<F: Fn()>(func: F) {
     func()
 }
 
-
-// fn max<T>(array: &[T]) -> T {
-//     let mut max_index = 0;
-//     let mut i = 1;
-//     while i < array.len() {
-//         let a= array[i] ;
-//         let b=array[max_index];
-//         let x=a.cmp(b);
-
-//         if x {
-//             max_index = i;
-//         }
-//         i += 1;
-//     }
-//     array[max_index]
-// }
-
 // 定义一个满足 `Fn` 限定的装包函数（wrapper function）。
 fn foo() {
     println!("我是一个输入函数!");
@@ -78,5 +61,8 @@ fn main() {
     });
     println!("{:?}", array);
     array.sort_by(|a, b| b.cmp(a));
+    println!("{:?}", array);
+
+    array.sort_by(|a, b| (&-*a).cmp(&-*b));
     println!("{:?}", array);
 }
