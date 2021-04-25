@@ -101,6 +101,8 @@
 ## 静观田野际，多少辍耕人
 
 ### [6.1 多线程初步](books/6.1.md)
+
+### [6.1 多线程——channel](books/6.2.md)
 ## 书上得来终觉浅 绝知此事要躬行 —— 工程实践
 
 ### [opencv rust](books/project_opencv-rust.md)
