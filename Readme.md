@@ -98,7 +98,9 @@
 
 ### [5. 指定泛型实现特定的 trait](books/5..md)
 
+## 静观田野际，多少辍耕人
 
+### [6.1 多线程初步](books/6.1.md)
 ## 书上得来终觉浅 绝知此事要躬行 —— 工程实践
 
 ### [opencv rust](books/project_opencv-rust.md)
