@@ -1,33 +1,31 @@
 use std::thread;
-// use std::sync::mpsc;
-// use crossbeam_channel::bounded;
-// use std::time::Duration;
+use futures_lite::future;
 fn generate(tx:   async_channel::Sender<i64>){
     let mut i=2;
     
     loop{
-        tx.send(i);
+        future::block_on( tx.send(i)).unwrap();
         i+=1;
     }
 }
 
 fn filter(src : async_channel::Receiver<i64>, dst:async_channel::Sender<i64>, prime: i64) {
     loop{
-        let i=src.recv().await;
+        let i=future::block_on(src.recv()).unwrap();
         if i%prime!=0{
-            dst.send(i);
+            future::block_on(dst.send(i)).unwrap();
         }
     }
 }
 
 
 fn main() {
-    let (tx, mut rx) = async_channel::unbounded();
+    let (tx, mut rx) = async_channel::bounded(1);
     thread::spawn(move || generate(tx));
     loop{
-        let prime =rx.recv();
-	    println!("{:?}",prime);
-        let (tx2,rx2) = async_channel::unbounded();
+        let prime =future::block_on(rx.recv()).unwrap();
+	    //println!("{:?}",prime);
+        let (tx2,rx2) = async_channel::bounded(7);
         thread::spawn(move || filter(rx,tx2,prime));
         rx=rx2;
         if prime>20000{
