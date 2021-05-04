@@ -48,8 +48,96 @@ async fn main() -> std::io::Result<()> {
     .await
 }
 ```
+编译的时候要多等一会，因为要下载212个crate。
 
 打开浏览器，如果有参数就 Hello `参数`，如果没有参数就 Hello World!
+
+为了体会Rust的`快感`,你可以试试使用wrk。<https://github.com/wg/wrk>
+
+```shell
+$ wrk -t12 -c400 -d30s http://127.0.0.1:8080
+```
+
+## 具备请求路由器
+actix 具备 URL 路由系统，可以匹配 URL 并调用各个 handler。把上面的程序进行修改：
+```shell
+$ cargo actix_hellorouter
+```
+
+```rust
+use actix_web::{get, web, App, HttpRequest, HttpServer, Responder};
+
+// #[get("/{name}")]
+// async fn index(web::Path(mut name): web::Path<String>) -> impl Responder {
+//     if name.len()==0{
+//         name=" World!".to_string();
+//     }
+//     format!("Hello {}!", name)
+// }
+#[get("/")]
+async fn index(_req: HttpRequest) -> impl Responder {
+    "Hello from the index page!"
+}
+
+async fn greet(path: web::Path<String>) -> impl Responder {
+    format!("Hello {}!", &path)
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    println!("带路由的actix-web::0.0.0.0:8080");
+    HttpServer::new(|| {
+        App::new()
+            .service(index)
+            .route("/{name}", web::get().to(greet))
+    })
+    .bind("0.0.0.0:8080")?
+    .run()
+    .await
+}
+
+```
+
+也可以稍微改写一下：
+```rust
+async fn greet(web::Path(name): web::Path<String>) -> impl Responder {
+    format!("Hello {}!", &name)
+}
+```
+
+## 加强路由
+
+上面虽然可以运行，但是感觉总是哪里别扭，不是应该每个函数都可以使用宏路由吗？下面我们进行修改：
+```shell
+$ cargo new actix_router
+```
+代码如下：
+
+```rust
+use actix_web::{get, web, App, HttpRequest, HttpServer, Responder};
+
+#[get("/")]
+async fn index(_req: HttpRequest) -> impl Responder {
+    "Hello from the index page!"
+}
+#[get("/{name}")]
+async fn greet(web::Path(name): web::Path<String>) -> impl Responder {
+    format!("Hello {}!", &name)
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    println!("带路由的actix-web::0.0.0.0:8080");
+    HttpServer::new(|| {
+        App::new()
+            .service(index)
+            .service(greet)
+    })
+    .bind("0.0.0.0:8080")?
+    .run()
+    .await
+}
+```
 
 ## 解释
 [^1]: CRUD:crud是指在做计算处理时的增加(Create)、检索(Retrieve)、更新(Update)和删除(Delete)几个单词的首字母简写。crud主要被用在描述软件系统中数据库或者持久层的基本操作功能。
