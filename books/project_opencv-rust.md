@@ -36,6 +36,7 @@ main.rs
 ```she
 $ git clone https://github.com/microsoft/vcpkg
 $ ./vcpkg/bootstrap-vcpkg.sh
+//如果出现cmake版本过低的问题，去https://cmake.org/download/下载最新版安装
 $ sudo cp vcpkg /usr/bin
 $  vcpkg install boost:x64-linux
 $ export VCPKG_ROOT=/usr/local/vcpkg
@@ -99,6 +100,7 @@ $ RUST_BACKTRACE=full cargo build -vv
 ```shell
 $ sudo apt-get purge libopencv* python-opencv
 $ sudo apt-get install libopencv* python-opencv
+$ sudo apt-get install python3-pip
 $ pip3 uninstall opencv-python-headless
 ```
 
@@ -115,7 +117,7 @@ $ cd opencv
 $ mkdir build
 $ cd build
 
-$ sudo cmake -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON -D CMAKE_LIBRARY_PATH=/usr/local/cuda-11.0/lib64/stubs -D CUDA_CUDA_LIBRARY=/usr/local/cuda-11.0/lib64/stubs/libcuda.so ..
+$ sudo cmake -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON -D CMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs -D CUDA_CUDA_LIBRARY=/usr/local/cuda/lib64/stubs/libcuda.so ..
 
 $ sudo make -j8
 
