@@ -1,0 +1,10 @@
+[package]
+name = "video"
+version = "0.1.0"
+authors = ["sunny <qi.cao@cloudminds.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+opencv = {version = "0.52", default-features = false, features = ["opencv-34", "buildtime-bindgen"]}
