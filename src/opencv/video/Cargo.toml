@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 opencv = {version = "0.52", default-features = false, features = ["opencv-34", "buildtime-bindgen"]}
+#opencv ="0.53.0"

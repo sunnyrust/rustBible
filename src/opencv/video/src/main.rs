@@ -13,18 +13,22 @@ use opencv::{
 fn main() -> Result<()> {
 	let window = "🧒 人脸识别👦";
 	highgui::named_window(window, 1)?;
+	let rtsp_url = "rtsp://admin:Cloud1688*@10.11.33.218:554/h264/ch35/main/av_stream";
+
 	#[cfg(ocvrs_opencv_branch_32)]
 	let (xml, mut cam) = {
 		(
 			"./data/haarcascade_frontalface_default.xml".to_owned(),
-			videoio::VideoCapture::new_default(0)?, // 0 is the default camera
+			videoio::VideoCapture::from_file_default(rtsp_url)?,
+			//videoio::VideoCapture::new_default(0)?, // 0 is the default camera
 		)
 	};
 	#[cfg(not(ocvrs_opencv_branch_32))]
 	let (xml, mut cam) = {
 		(
 			core::find_file("./data/haarcascade_frontalface_default.xml", true, false)?,
-			videoio::VideoCapture::new(0, videoio::CAP_ANY)?, // 0 is the default camera
+			//videoio::VideoCapture::new(0, videoio::CAP_ANY)?, // 0 is the default camera
+			videoio::VideoCapture::from_file(rtsp_url,videoio::CAP_FFMPEG)?,
 		)
 	};
 	let opened = videoio::VideoCapture::is_opened(&cam)?;
