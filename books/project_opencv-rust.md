@@ -118,6 +118,9 @@ $ mkdir build
 $ cd build
 
 $ sudo cmake -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON -D CMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs -D CUDA_CUDA_LIBRARY=/usr/local/cuda/lib64/stubs/libcuda.so ..
+//增强版，指定了安装目录和增加了opencv4.pc
+$ sudo cmake -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D CMAKE_INSTALL_PREFIX=/usr/local/opencv4 -D  INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON -D CMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs -D OPENCV_GENERATE_PKGCONFIG=YES -D CUDA_CUDA_LIBRARY=/usr/local/cuda/lib64/stubs/libcuda.so ..
+
 
 $ sudo make -j8
 
