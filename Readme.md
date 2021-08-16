@@ -113,3 +113,7 @@
 ### [opencv rust](books/project_opencv-rust.md)
 
 ### [web 开发一](books/rust-web01.md)
+
+### [Rust里面时间相关](books/rust-time.md)
+
+### [FAQ](books/faq.md)

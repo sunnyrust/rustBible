@@ -280,7 +280,13 @@ fn main() {
 }
 ```
 
+## tx2 安装tensorrt
 
+```shell
+$ sudo apt-get update
+$ apt-cache search tensorrt
+$ sudo apt install libnvinfer*
+```
 
 ## 解释
 
