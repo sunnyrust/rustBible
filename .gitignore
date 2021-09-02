@@ -1,4 +1,5 @@
 target/*
+target/*.rs
 
 *
 !.gitignore
@@ -7,6 +8,7 @@ target/*
 !*.rs
 !*.jpeg
 !*.svg
+!*.gif
 !*.jpg
 !*.png
 !*/

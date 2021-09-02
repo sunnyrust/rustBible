@@ -27,10 +27,9 @@ fn main() {
     loop{
         let prime =rx.recv().unwrap();
 	   //println!("{:?}",prime);
-        let (tx2,rx2) = bounded(7);
+        let (tx2,rx2) = bounded(30);
        let _= thread::spawn(move || filter(rx,tx2,prime));
 
-      // t.join().unwrap();
         rx=rx2;
         if prime>20000{
             break;

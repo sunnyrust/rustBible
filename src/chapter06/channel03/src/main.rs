@@ -25,7 +25,7 @@ fn main() {
     loop{
         let prime =future::block_on(rx.recv()).unwrap();
 	    //println!("{:?}",prime);
-        let (tx2,rx2) = async_channel::bounded(7);
+        let (tx2,rx2) = async_channel::bounded(30);
         thread::spawn(move || filter(rx,tx2,prime));
         rx=rx2;
         if prime>20000{
