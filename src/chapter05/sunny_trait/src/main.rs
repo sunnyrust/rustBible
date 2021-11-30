@@ -1,4 +1,7 @@
+#[allow(dead_code)]
 struct Circle {
+    pub x: f64,
+    pub y: f64,
     pub radius: f64,
 }
 
@@ -30,6 +33,8 @@ impl  Shape for Circle {
 
 fn main() {
     let  mut  c=Circle{
+        x:0.0f64,
+        y:0.0f64,
         radius:3f64
     };
     // c.set_radius(5f64);
