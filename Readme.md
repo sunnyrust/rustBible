@@ -109,6 +109,7 @@
 ### [6.3 多线程——future](books/6.3.md)
 
 ## 书上得来终觉浅 绝知此事要躬行 —— 工程实践
+### [7.1 Axum初步](books/7.1.md)
 
 ### [opencv rust](books/project_opencv-rust.md)
 

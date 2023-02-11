@@ -1,12 +1,10 @@
+target
 target/*
-target/*.rs
-debug/*.rs
 
 *
 !.gitignore
 !*.md
 !Cargo.toml
-!*.rs
 !*.jpeg
 !*.svg
 !*.gif

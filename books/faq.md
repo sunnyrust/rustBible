@@ -21,3 +21,28 @@ Rust调用一个C库 使用如下注解能够编译通过并且cargo run能够�
 Rust编译占得硬盘空间只能用恐怖来形容，我一共也就写了50多个程序，居然占了100G的空间，硬盘直接报警。然后，网友告诉了我一个很厉害的方法解决这个问题。
 
 <https://crates.io/crates/cargo-clean-recursive> 使用这个工具来解决。
+
+
+
+
+
+## rust 如何让cargo监控有文件修改并自动运行
+
+如果您正在处理一个持续运行的服务器项目（例如hyper、iron等），并且需要在文件更改时重新启动它，则可以使用[`cargo watch`](https://www.saoniuhuo.com/link?url=https://github.com/watchexec/cargo-watch)。安装：
+
+```shell
+cargo install cargo-watch
+```
+
+然后运行
+
+```shell
+cargo watch -x run
+```
+
+要仅查看`src`文件夹中的更改并清除控制台，请使用：
+
+```shell
+cargo watch -c -w src -x run
+```
+
