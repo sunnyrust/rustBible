@@ -110,6 +110,10 @@
 
 ## 书上得来终觉浅 绝知此事要躬行 —— 工程实践
 ### [7.1 Axum初步](books/7.1.md)
+### [7.2 日志输出](books/7.2.md)
+### [7.3 配置文件](books/7.3.md)
+### [7.4 MVC架构与传输公共参数](books/7.4.md)
+### [7.5 高级路由配置文件](books/7.5.md)
 
 ### [opencv rust](books/project_opencv-rust.md)
 
