@@ -1,11 +1,11 @@
 use axum::{
-    routing::get,
     Extension,
 };
 use tower_http::{trace::TraceLayer};
 use std::sync::Arc;
 use dotenv::dotenv;
 use helloworld_axum::{config,router};
+
 #[tokio::main]
 async fn main() {
     eprintln!(
