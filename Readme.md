@@ -114,6 +114,8 @@
 ### [7.3 配置文件](books/7.3.md)
 ### [7.4 MVC架构与传输公共参数](books/7.4.md)
 ### [7.5 高级路由配置文件](books/7.5.md)
+### [7.6 配置静态文件路径](books/7.6.md)
+
 
 ### [opencv rust](books/project_opencv-rust.md)
 
