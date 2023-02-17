@@ -16,4 +16,5 @@ pub fn init() -> axum::Router {
         .route("/do", get(crate::get_fun).post(crate::post_fun))
         .route("/greet", get(|| async { "Hello, axum World!🌱🌎" }))
         .nest("/index", controller::index::index_router())
+        .nest("/tag",controller::tag::index_router())
 }

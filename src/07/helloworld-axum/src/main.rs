@@ -4,7 +4,8 @@ use axum::{
 use tower_http::{trace::TraceLayer};
 use std::sync::Arc;
 use dotenv::dotenv;
-use helloworld_axum::{config,router};
+use helloworld_axum::{config,router, dbstate};
+use sqlx::postgres::PgPoolOptions;
 
 #[tokio::main]
 async fn main() {
@@ -26,9 +27,15 @@ r#"
         web_addr:cfg.web.addr.clone(),
         web_version:cfg.web.version.clone(),
     };
+    // 连接postgresql
+    let pool = PgPoolOptions::new()
+        .max_connections(cfg.db.connections)
+        .connect(&cfg.db.pg).await.unwrap();
+    
     // 建立一个简单的路由
     let app =  router::init()
             .layer(TraceLayer::new_for_http())
+            .layer(Extension(Arc::new(dbstate::DbState { conn: pool})))
             .layer(Extension(Arc::new(web_info))) ;
     
     tracing::info!("🌱🌎 服务监听于{}🌐🌱", &cfg.web.addr);

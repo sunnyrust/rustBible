@@ -4,10 +4,15 @@ pub struct WebConfig {
     pub addr: String,
     pub version: String,
 }
-
+#[derive(Deserialize)]
+pub struct DbConfig {
+    pub pg:String,
+    pub connections:u32,
+}
 #[derive(Deserialize)]
 pub struct Config {
     pub web: WebConfig,
+    pub db: DbConfig,
 }
 impl Config {
     /// 从环境读取
