@@ -10,9 +10,14 @@ pub struct DbConfig {
     pub connections:u32,
 }
 #[derive(Deserialize)]
+pub struct RedisConfig {
+    pub url:String,
+}
+#[derive(Deserialize)]
 pub struct Config {
     pub web: WebConfig,
     pub db: DbConfig,
+    pub redis:RedisConfig,
 }
 impl Config {
     /// 从环境读取

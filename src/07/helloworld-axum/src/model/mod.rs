@@ -5,3 +5,10 @@ pub mod tag;
 fn get_conn<'a>(state: &'a DbState) -> &'a sqlx::PgPool {
     &state.conn
 }
+
+
+#[allow(dead_code)]
+/// 取得redis的conn
+fn get_redis_conn<'a>(state: &'a DbState) -> &'a redis::Client {
+    &state.redis_conn
+}

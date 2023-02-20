@@ -1,6 +1,7 @@
 use axum::{
     Extension,
 };
+
 use tower_http::{trace::TraceLayer};
 use std::sync::Arc;
 use dotenv::dotenv;
@@ -31,11 +32,13 @@ r#"
     let pool = PgPoolOptions::new()
         .max_connections(cfg.db.connections)
         .connect(&cfg.db.pg).await.unwrap();
-    
+    // 连接redis
+    let redis_client=redis::Client::open(cfg.redis.url).expect("Redis Database connect error");
+
     // 建立一个简单的路由
     let app =  router::init()
             .layer(TraceLayer::new_for_http())
-            .layer(Extension(Arc::new(dbstate::DbState { conn: pool})))
+            .layer(Extension(Arc::new(dbstate::DbState { conn: pool,redis_conn:redis_client})))
             .layer(Extension(Arc::new(web_info))) ;
     
     tracing::info!("🌱🌎 服务监听于{}🌐🌱", &cfg.web.addr);
