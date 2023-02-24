@@ -46,3 +46,12 @@ cargo watch -x run
 cargo watch -c -w src -x run
 ```
 
+
+
+## Blocking waiting for file lock on package cache
+
+```shell
+$ rm -rf ~/.cargo/registry/index/*
+$ rm -rf ~/.cargo/.package-cache
+```
+
