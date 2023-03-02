@@ -120,6 +120,7 @@
 ### [7.9 把标签用`BTree`形式展现出来](books/7.9.md)
 ### [7.10 使用缓存技术保存数据库查询结果](books/7.10.md)
 ### [7.11 使用模板编辑页面](books/7.11.md)
+### [7.12 一个奇怪的问题](books/7.12.md)
 
 ### [opencv rust](books/project_opencv-rust.md)
 
