@@ -121,6 +121,10 @@
 ### [7.10 使用缓存技术保存数据库查询结果](books/7.10.md)
 ### [7.11 使用模板编辑页面](books/7.11.md)
 ### [7.12 一个奇怪的问题](books/7.12.md)
+### [7.13 `Tag`显示一](books/7.13.md)
+### [7.14 `Tag`显示二](books/7.14.md)
+### [7.15 编辑`Tag`页面一](books/7.15.md)
+### [7.16 编辑`Tag`页面二](books/7.16.md)
 
 ### [opencv rust](books/project_opencv-rust.md)
 

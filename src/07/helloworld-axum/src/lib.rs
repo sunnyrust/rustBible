@@ -1,5 +1,6 @@
 pub mod config;
 pub mod controller;
+pub mod view;
 pub mod model;
 pub mod router;
 pub mod dbstate;
