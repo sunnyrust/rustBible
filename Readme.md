@@ -125,6 +125,8 @@
 ### [7.14 `Tag`显示二](books/7.14.md)
 ### [7.15 编辑`Tag`页面一](books/7.15.md)
 ### [7.16 编辑`Tag`页面二](books/7.16.md)
+### [7.17 添加页面](books/7.17.md)
+### [7.18 删除](books/7.18.md)
 
 ### [opencv rust](books/project_opencv-rust.md)
 
