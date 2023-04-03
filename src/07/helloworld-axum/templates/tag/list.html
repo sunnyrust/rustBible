@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>jsTree tree List</title>
+  <link rel="alternate icon" type="image/png" href="https://www.rust-lang.org/static/images/favicon-16x16.png">
+  <link rel="alternate icon" type="image/png" href="https://www.rust-lang.org/static/images/favicon-32x32.png">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <!-- 2 load the theme CSS file -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
+  <!-- 4 include the jQuery library -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.3/jquery.contextMenu.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.3/jquery.contextMenu.min.css" /> -->
+  <!-- 5 include the minified jstree source -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+</head>
+
+<body>
+  <!-- 3 setup a container element -->
+  <input type="button" value="添加" id="addButton" />
+  <div id="jstree">
+    <!-- in this example the tree is populated from inline HTML -->
+    <ul>
+      <li id="Root">
+        Root
+        {{ul}}
+      </li>
+    </ul>
+  </div>
+  <!-- <button>demo button</button> -->
+  <ul id="myMenu" class="context-menu">
+
+  </ul>
+  <input type="hidden" id="id" name="id" value="" readonly="readonly" />
+  <script>
+    $(function () {
+      // 6 create an instance when the DOM is ready
+      $('#jstree').jstree({
+        'plugins': ["wholerow", "checkbox", "types",'contextmenu'],
+        'checkbox': {
+          "three_state": false//父子级不关联选中
+        },
+        'core': {
+          "multiple": false,//单选
+          // "check_callback" : true,
+          "themes": {
+            "responsive": false
+          },
+        },
+        contextmenu: {
+          items: { // 定义菜单项
+            create: {
+              label: '新建',
+              action: function () {  window.location.href = "/tag/add"; }
+            },
+            rename: {
+              label: '编辑',
+              action: function () {
+                if ($("#id").val()!=""){
+                  // console.log($("#id").val());
+                  window.location.href ="./edit/"+ $("#id").val();
+                }
+              }
+            },
+            delete: {
+              label: '删除',
+              action: function () { 
+                if ($("#id").val()!=""){
+                  // console.log($("#id").val());
+                  window.location.href ="./del/"+ $("#id").val();
+                }
+               }
+            }
+          }
+        },
+      });
+      $('#jstree').on("changed.jstree", function (e, data) {
+        console.log(data.selected);
+        var oStr = data.selected + "";
+        $("#id").val(oStr.substr(5));
+      });
+      
+      // 页面加载完，整个树展开
+      $('#jstree').bind("ready.jstree", function () {
+        $('#jstree').jstree("open_all");
+      });
+    });
+
+    $("#addButton").click(function () {
+      // 在这里添加你的onclick事件处理程序
+      window.location.href = "/tag/add";
+    });
+  </script>
+</body>
+
+</html>
