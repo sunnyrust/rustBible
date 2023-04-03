@@ -1,6 +1,7 @@
 use crate::{config::WebInfo,AppError,Result};
 pub mod index;
 pub mod tag;
+pub mod three;
 use axum::{
    // http::{header, HeaderMap, StatusCode},
    response::Html,
