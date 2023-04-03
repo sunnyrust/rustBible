@@ -1,0 +1,8 @@
+[web]
+    addr="0.0.0.0:3000"
+    version="0.2.0"
+[db]
+    pg="postgres://sa:123456@localhost/helloworld"
+    connections=10
+[redis]
+    url="redis://default:sunny@127.0.0.1/0"
