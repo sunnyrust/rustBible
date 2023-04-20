@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "sunny-marco",
+    "sunny-derive-trait"
+]
