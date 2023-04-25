@@ -3,7 +3,7 @@ use crate::{dbstate::*, model::tag::*, model::*, util::stack::*, util::types::*,
 use askama::Template;
 use axum::{
     extract::Path,
-    http::{header::HeaderName, HeaderMap, HeaderValue,  StatusCode},
+    http::{header::HeaderName, HeaderMap, HeaderValue, StatusCode},
     routing::{get, post},
     Extension, Form, Json, Router,
 };
@@ -71,8 +71,8 @@ async fn get_tree(Extension(state): Extension<Arc<DbState>>) -> types::HandlerJs
 pub async fn do_del(
     Extension(state): Extension<Arc<DbState>>,
     Path(id): Path<i32>,
-) -> Result<HtmlResponse>  {
-       #[allow(unused_assignments)]
+) -> Result<HtmlResponse> {
+    #[allow(unused_assignments)]
     let mut message = String::from("OK");
     let msg = tag::delete(&state, id).await;
     match msg {
@@ -87,9 +87,9 @@ pub async fn do_del(
     }
     let handler_name = "Message";
     let mut tpl = crate::view::MsgTemplate::default();
-    tpl.title="删除".to_string();
+    tpl.title = "删除".to_string();
     tpl.msg = message;
-    tpl.is_success=true;
+    tpl.is_success = true;
     tpl.target_url = Some("/tag/list".to_string());
 
     render(tpl, handler_name)
@@ -142,40 +142,58 @@ pub async fn edit(
     for node in tags.clone() {
         node_map.insert(node.id, node);
     }
-    let tag_root = node_map.get(&id).unwrap();
-    let mut ids = Vec::new();
-    tag_root.traverse(&node_map, &mut ids);
-    // println!("{:?}---{}", ids,id);
-    /////////////////////////////////////////////
-    let handler_name = "edit";
-    let mut str_html = String::from("");
-    let mut stack = Stack::new();
-    for tag in tags {
-        if !ids.contains(&tag.id) || id == 0 {
-            str_html = set_html(&mut stack, &tag, str_html, false);
-        }
-    }
-    if !stack.is_empty() {
-        loop {
-            let l_stack = stack.pop().unwrap();
-            str_html += r#"</li></ul>"#;
-            if l_stack.level == 0 {
-                break;
+    let tag_root = node_map.get(&id);
+    let tag_root = match tag_root {
+        Some(val) => val.to_owned(),
+        None => TagModel {
+            id: 0,
+            name: "Root".to_string(),
+            pid: 0,
+            level: -9,
+            is_parent: true,
+        },
+    };
+    if tag_root.level == -9 {
+        let handler_name = "Message";
+        let mut tpl = crate::view::MsgTemplate::default();
+        tpl.is_success = false;
+        tpl.title = "错误".to_string();
+        tpl.msg = String::from("数据不存在");
+        tpl.target_url = Some("/tag/list".to_string());
+        render(tpl, handler_name)
+    } else {
+        let mut ids = Vec::new();
+        tag_root.traverse(&node_map, &mut ids);
+        let handler_name = "edit";
+        let mut str_html = String::from("");
+        let mut stack = Stack::new();
+        for tag in tags {
+            if !ids.contains(&tag.id) || id == 0 {
+                str_html = set_html(&mut stack, &tag, str_html, false);
             }
         }
+        if !stack.is_empty() {
+            loop {
+                let l_stack = stack.pop().unwrap();
+                str_html += r#"</li></ul>"#;
+                if l_stack.level == 0 {
+                    break;
+                }
+            }
+        }
+        let m = tag::get_one_by_id(&state, id).await.unwrap_or(Model {
+            id: 0,
+            name: "".to_string(),
+            pid: 0,
+        });
+        let tpl = EditForm {
+            ul: &str_html,
+            id: id,
+            pid: m.pid,
+            name: &m.name,
+        };
+        render(tpl, handler_name)
     }
-    let m = tag::get_one_by_id(&state, id).await.unwrap_or(Model {
-        id: 0,
-        name: "".to_string(),
-        pid: 0,
-    });
-    let tpl = EditForm {
-        ul: &str_html,
-        id: id,
-        pid: m.pid,
-        name: &m.name,
-    };
-    render(tpl, handler_name)
 }
 
 /// 判断是不是要压栈
@@ -311,9 +329,7 @@ pub struct AddFormTemplate<'a, 'b> {
     pub name: &'b str,
 }
 // impl<'a,'b> AddFormTemplate<'a,'b>{
-pub async fn add(
-    Extension(state): Extension<Arc<DbState>>,
-) -> Result<HtmlResponse> {
+pub async fn add(Extension(state): Extension<Arc<DbState>>) -> Result<HtmlResponse> {
     // if method.as_str() == "post" {
     //     tracing::info!("post…………");
     // }
@@ -365,7 +381,7 @@ pub async fn do_add(
     #[allow(unused_assignments)]
     let mut message = String::from("OK");
     let mut tpl = crate::view::MsgTemplate::default();
-    tpl.title="添加".to_string();
+    tpl.title = "添加".to_string();
     match result {
         Ok(msg) => {
             message = msg;

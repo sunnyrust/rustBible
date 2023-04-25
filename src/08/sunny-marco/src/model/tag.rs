@@ -110,7 +110,7 @@ pub async fn get_all_tag<'a,'b>(state: &'a DbState,order:Option<&'b str>) -> Res
 }
 
 #[allow(dead_code)]
-pub async fn get_one_by_id<'a,'b>(state: &'a DbState,id:i32) -> Result<Model> {
+pub async fn get_one_by_id<'a,'b>(state: &'a DbState,id:i32) -> std::result::Result<Model,String> {
     #[allow(unused_assignments)]
     let mut sql=String::new();
     sql=format!("SELECT id, name,pid from {} where id ={}",get_table_name(),id);
@@ -118,7 +118,7 @@ pub async fn get_one_by_id<'a,'b>(state: &'a DbState,id:i32) -> Result<Model> {
     let rows = sqlx::query_as::<_, Model>(&sql)
         .fetch_one(pool)
         .await
-        .unwrap();
+        .map_err(|e| format!("Error fetching from the database: {}", e))?;
     Ok(rows)
 }
 

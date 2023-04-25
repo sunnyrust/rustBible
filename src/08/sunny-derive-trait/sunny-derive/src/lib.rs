@@ -71,7 +71,7 @@ pub fn derive_signature(item: TokenStream) -> TokenStream {
                 #table_name
             }
             fn select(&self) -> String {
-                format!("SELECT {} FROM {};",#select_sql, #table_name)
+                format!("SELECT {} FROM {} order by id ASC;",#select_sql, #table_name)
                 
             }
 
@@ -79,9 +79,7 @@ pub fn derive_signature(item: TokenStream) -> TokenStream {
                 let mut keys: String = String::new();
                 let mut values: String = String::new();
                 for (key, value) in serde_json::json!(self).as_object().unwrap() {
-                    
                     if(key.contains("id")) {
-                        //values.push_str("uuid(), ");
                         values.push_str("");
                     } else {
                         keys.push_str(format!("{}, ", key).as_str());
@@ -113,6 +111,11 @@ pub fn derive_signature(item: TokenStream) -> TokenStream {
             fn delete(&self,id: i32) -> String {
                 format!("DELETE FROM {} WHERE id = {}", #table_name, id)
             }
+
+            fn get_one_by_id(&self,id: i32) -> String {
+                format!("SELECT * from {} where id ={}", #table_name, id)
+            }
+
             // fn get_one_by_id<'a,'b>(&self,state: &'a DbState,id:i32) -> Result<Model> {
             //     #[allow(unused_assignments)]
             //     let mut sql=String::new();

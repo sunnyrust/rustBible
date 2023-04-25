@@ -5,5 +5,5 @@ pub trait PgCurdStruct {
     fn insert(&self) -> String;
     fn update(&self,id: i32) -> String;
     fn delete(&self,id: i32) -> String;
-    //fn get_one_by_id<'a,'b>(&self,state: &'a DbState,id:i32) -> Result<T> ;
+    fn get_one_by_id(&self,id: i32) -> String;
 }

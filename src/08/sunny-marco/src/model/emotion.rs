@@ -30,6 +30,7 @@ pub async fn get_all<'a,'b>(state: &'a DbState,sql:&'b String) -> Result<Vec<Emo
             "".to_string()
         }
     };
+    #[allow(unused_assignments)]
     let mut vec_emotion:Vec<EmotionModel>=vec![];
     if !b_have_key{
         let pool = get_conn(&state);
@@ -97,4 +98,43 @@ pub async fn insert_one<'a,'b,'c,'d,'e>(state: &'a DbState,sql:&'b String,table_
     let mut redis_conn = client.get_connection().expect("redis connect error");
     redis::cmd("DEL").arg("all_emotion").execute(&mut redis_conn);
     Ok("ok".to_string())
+}
+
+#[allow(dead_code)]
+pub async fn delete<'a,'b>(state: &'a DbState,sql:&'b String) -> Result<String> {
+    let pool = get_conn(&state);
+    //let sql=format!("Delete from {} where id ={}",get_table_name(),id);
+    let res=sqlx::query(&sql)
+    .execute(pool)
+    .await;
+    match res {
+        Ok(result) => {
+            let _rows=result.rows_affected();
+            if _rows==0{
+                let code = AppError::from_err(format!("库里不存在这个id，无法删除").into(),crate::AppErrorType::Database);
+                return Err(code);
+            }
+        },
+        Err(err) => {
+            let code = AppError::from_err(err.into(),crate::AppErrorType::Database);
+            return Err(code);
+        }
+    }
+    // 操作redis 清除缓存
+    let client=get_redis_conn(&state);
+    let mut redis_conn = client.get_connection().expect("redis connect error");
+    redis::cmd("DEL").arg("all_emotion").execute(&mut redis_conn);
+    Ok("ok".to_string())
+}
+
+
+/// 程序获取一条数据的操作
+#[allow(dead_code)]
+pub async fn get_one_by_id<'a,'b>(state: &'a DbState,sql:&'b String) -> std::result::Result<EmotionModel,String>  {
+    let pool = get_conn(&state);
+    let result = sqlx::query_as::<_, EmotionModel>(&sql)
+                    .fetch_one(pool)
+                    .await
+                    .map_err(|e| format!("Error fetching from the database: {}", e))?;
+    Ok(result)
 }

@@ -1,7 +1,7 @@
 use super::render;
 use crate::{dbstate::*, model::emotion::*, model::*, util::types::*};
 use askama::Template;
-use axum::{routing::get, Extension, Form, Json, Router};
+use axum::{routing::get, Extension, Form, Json, Router,extract::Path,};
 use serde::Deserialize;
 use std::sync::Arc;
 use sunny_derive_trait::PgCurdStruct;
@@ -11,6 +11,8 @@ pub(crate) fn index_router() -> Router {
         .route("/test", get(test))
         .route("/list", get(list))
         .route("/insert", get(add).post(do_insert))
+        .route("/del/:id", get(do_del))
+        .route("/edit/:id", get(edit))
         .layer(TraceLayer::new_for_http())
 }
 
@@ -52,10 +54,9 @@ async fn list(Extension(state): Extension<Arc<DbState>>) -> Result<HtmlResponse>
 
 #[derive(Template)]
 #[template(path = "emotion/add.html", ext = "html", escape = "none")]
-// #[derive(Deserialize)]
 pub struct NullForm {}
 async fn add() -> Result<HtmlResponse> {
-    let handler_name = "list";
+    let handler_name = "add";
     let tpl = NullForm {};
     render(tpl, handler_name)
 }
@@ -78,12 +79,6 @@ async fn do_insert(
         tpl.msg = String::from("参数不能为空");
         tpl.target_url = Some("/emotion/insert".to_string());
     } else {
-        // let data = AddForm {
-        //     id: None,
-        //     name: frm.name,
-        //     code: frm.code,
-        //     unicode: frm.unicode,
-        // };
         let emo = emotion::EmotionModel {
             id: 0,
             name: frm.name,
@@ -108,5 +103,76 @@ async fn do_insert(
             }
         }
     }
+    render(tpl, handler_name)
+}
+
+/// 删除
+pub async fn do_del(
+    Extension(state): Extension<Arc<DbState>>,
+    Path(id): Path<i32>,
+) -> Result<HtmlResponse>  {
+    let emo = emotion::EmotionModel {
+        id: 0,
+        name: "".to_string(),
+        code: "".to_string(),
+        unicode: "".to_string(),
+    };
+    
+    let mut tpl = crate::view::MsgTemplate::default();
+    #[allow(unused_assignments)]
+    let mut message = String::from("OK");
+    let msg = emotion::delete(&state, &emo.delete(id)).await;
+    match msg {
+        Ok(msg) => {
+            tpl.is_success=true;
+            message = msg;
+        },
+        Err(e) => {
+            let msg = match e.error {
+                crate::err::AppErrorItem::Cause(err) => err.to_string(),
+                crate::err::AppErrorItem::Message(msg) => msg.unwrap_or("发生错误".to_string()),
+            };
+            tpl.is_success=false;
+            message = msg;
+        }
+    }
+    let handler_name = "Message";
+    
+    tpl.title="删除".to_string();
+    tpl.msg = message;
+    
+    tpl.target_url = Some("/emotion/list".to_string());
+
+    render(tpl, handler_name)
+}
+
+
+#[derive(Template)]
+#[template(path = "emotion/edit.html", ext = "html", escape = "none")]
+#[derive(Deserialize)]
+pub struct EditForm {
+    pub id: i32,
+    pub name: String,
+    pub code: String,
+    pub unicode: String,
+}
+pub async fn edit(
+    Extension(state): Extension<Arc<DbState>>,
+    Path(id): Path<i32>,
+) -> Result<HtmlResponse> {
+    let handler_name = "edit";
+    let emo = emotion::EmotionModel {
+        id: 0,
+        name: "".to_string(),
+        code: "".to_string(),
+        unicode: "".to_string(),
+    };
+    let m = emotion::get_one_by_id(&state, &emo.get_one_by_id(id)).await.unwrap_or(emo);
+    let tpl = EditForm {
+        id: m.id,
+        name: m.name.clone(),
+        code: m.code,
+        unicode: m.unicode,
+    };
     render(tpl, handler_name)
 }
