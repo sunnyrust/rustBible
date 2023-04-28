@@ -8,13 +8,13 @@ use syn::{
 
 use quote::{quote, ToTokens};
 
-#[proc_macro_derive(PgCurdStruct, attributes(TableName))]
+#[proc_macro_derive(PgCurdStruct, attributes(TableName,CacheName))]
 pub fn derive_signature(item: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(item as DeriveInput);
     let struct_name = &ast.ident;
     let attrs = &ast.attrs;
     let mut table_name: Option<String> = None;
-
+    let mut cache_name: Option<String> = None;
     for attr in attrs {
         match attr.parse_meta().unwrap() {
             syn::Meta::NameValue(val) => {
@@ -23,12 +23,19 @@ pub fn derive_signature(item: TokenStream) -> TokenStream {
                         table_name = Some(lit.value());
                     }
                 }
+                if val.path.is_ident("CacheName") {
+                    if let syn::Lit::Str(lit) = &val.lit {
+                        cache_name = Some(lit.value());
+                    }
+                }
+                
             }
             _ => (),
         }
     }
 
     let table_name = table_name.expect("TableName attr not found");
+    let cache_name=cache_name.expect("CacheName attr not found");
     let fields = if let syn::Data::Struct(syn::DataStruct {
         fields: syn::Fields::Named(ref fields),
         ..
@@ -69,6 +76,9 @@ pub fn derive_signature(item: TokenStream) -> TokenStream {
         impl PgCurdStruct for #struct_name {
             fn get_table_name(&self)->&'static str{
                 #table_name
+            }
+            fn get_cache_name(&self)->&'static str{
+                #cache_name
             }
             fn select(&self) -> String {
                 format!("SELECT {} FROM {} order by id ASC;",#select_sql, #table_name)

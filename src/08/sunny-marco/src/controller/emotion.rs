@@ -1,7 +1,9 @@
 use super::render;
 use crate::{dbstate::*, model::emotion::*, model::*, util::types::*};
 use askama::Template;
-use axum::{routing::get, Extension, Form, Json, Router,extract::Path,};
+use axum::{routing::{get,post}, Extension, Form, Json, Router,extract::Path,
+        http::{header::HeaderName, HeaderMap, HeaderValue, StatusCode},
+};
 use serde::Deserialize;
 use std::sync::Arc;
 use sunny_derive_trait::PgCurdStruct;
@@ -13,6 +15,8 @@ pub(crate) fn index_router() -> Router {
         .route("/insert", get(add).post(do_insert))
         .route("/del/:id", get(do_del))
         .route("/edit/:id", get(edit))
+        .route("/doedit", post(do_edit))
+        .route("/get", get(get_emotion))
         .layer(TraceLayer::new_for_http())
 }
 
@@ -175,4 +179,70 @@ pub async fn edit(
         unicode: m.unicode,
     };
     render(tpl, handler_name)
+}
+
+
+
+
+#[derive(Deserialize)]
+pub struct EditStruct {
+    pub id: i32,
+    pub name: String,
+    pub code: String,
+    pub unicode: String,
+}
+pub async fn do_edit(
+    Extension(state): Extension<Arc<DbState>>,
+    Form(frm): Form<EditStruct>,
+) -> Result<HtmlResponse> {
+    let emo = emotion::EmotionModel {
+        id: frm.id,
+        name: frm.name.clone(),
+        code: frm.code.clone(),
+        unicode: frm.unicode.clone(),
+    };
+    let result = emotion::update(
+        &state,&emo.update(frm.id))
+        .await;
+    let handler_name = "Message";
+    #[allow(unused_assignments)]
+    let mut message = String::from("OK");
+    let mut tpl = crate::view::MsgTemplate::default();
+    match result {
+        Ok(msg) => {
+            message = msg;
+            tpl.is_success = true;
+        }
+        Err(e) => {
+            let _msg = match e.error {
+                crate::err::AppErrorItem::Cause(err) => err.to_string(),
+                crate::err::AppErrorItem::Message(msg) => msg.unwrap_or("发生错误".to_string()),
+            };
+            message = _msg;
+            tpl.is_success = false;
+        }
+    }
+    tpl.msg = message;
+    tpl.target_url = Some("/emotion/list".to_string());
+
+    render(tpl, handler_name)
+}
+
+
+async fn get_emotion(Extension(state): Extension<Arc<DbState>>) -> HandlerJsonResult {
+    let mut headers = HeaderMap::new();
+    headers.insert(
+        HeaderName::from_static("content-type"),
+        HeaderValue::from_static("application/json;charset=utf-8"),
+    );
+    let emo = emotion::EmotionModel {
+        id: 0,
+        name: "name".to_string(),
+        code: "10086".to_string(),
+        unicode: "1F001".to_string(),
+    };
+    let emo_model = emotion::get_all(&state, &emo.select()).await.unwrap();
+    let result = Json(serde_json::json!({ "data": emo_model }));
+    let code = StatusCode::OK;
+    (code, headers, result)
 }

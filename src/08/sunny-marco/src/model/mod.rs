@@ -1,6 +1,7 @@
 use crate::{dbstate::DbState,};
 pub mod tag;
 pub mod emotion;
+pub mod gesture;
 use serde::{Deserialize, Serialize};
 #[allow(dead_code)]
 /// 取得PostgreSQL的conn

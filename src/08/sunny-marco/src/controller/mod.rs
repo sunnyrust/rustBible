@@ -3,6 +3,7 @@ pub mod index;
 pub mod tag;
 pub mod three;
 pub mod emotion;
+pub mod gesture;
 use axum::{
    // http::{header, HeaderMap, StatusCode},
    response::Html,
