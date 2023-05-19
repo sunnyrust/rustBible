@@ -4,8 +4,9 @@ pub mod tag;
 pub mod three;
 pub mod emotion;
 pub mod gesture;
+pub mod iot;
+pub mod iot_behavior;
 use axum::{
-   // http::{header, HeaderMap, StatusCode},
    response::Html,
 };
 use askama::Template;

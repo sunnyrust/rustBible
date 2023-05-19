@@ -3,7 +3,7 @@ use crate::controller;
 use tower_http::{services::{ServeDir},};
 use super::web_handle_error;
 pub fn init() -> axum::Router {
-    let serve_dir = get_service(ServeDir::new("./static")).handle_error(web_handle_error);
+    let serve_dir = get_service(ServeDir::new("./static/")).handle_error(web_handle_error);
     let css_dir = get_service(ServeDir::new("./static/css")).handle_error(web_handle_error);
     let js_dir = get_service(ServeDir::new("./static/js")).handle_error(web_handle_error);
     let images_dir = get_service(ServeDir::new("./static/images")).handle_error(web_handle_error);
@@ -22,4 +22,6 @@ pub fn init() -> axum::Router {
         .nest("/three",controller::three::index_router())
         .nest("/emotion",controller::emotion::index_router())
         .nest("/gesture",controller::gesture::index_router())
+        .nest("/iot",controller::iot::index_router())
+        .nest("/iotbehavior",controller::iot_behavior::index_router())
 }

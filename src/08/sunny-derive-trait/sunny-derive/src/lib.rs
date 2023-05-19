@@ -89,13 +89,14 @@ pub fn derive_signature(item: TokenStream) -> TokenStream {
                 let mut keys: String = String::new();
                 let mut values: String = String::new();
                 for (key, value) in serde_json::json!(self).as_object().unwrap() {
-                    if(key.contains("id")) {
+                    if(key.eq("id")) {
                         values.push_str("");
                     } else {
                         keys.push_str(format!("{}, ", key).as_str());
                         values.push_str(format!("'{}', ", value.to_string()).as_str());
                     }
                 }
+                // values = values.replace("\\", "");
                 values = values.replace("\"", "");
                 let last_values = &values[..values.len() - 2];
                 let last_keys = &keys[..keys.len() - 2];          
@@ -106,12 +107,13 @@ pub fn derive_signature(item: TokenStream) -> TokenStream {
                 let mut update:String=String::new();
                 for (key, value) in serde_json::json!(self).as_object().unwrap() {
                     
-                    if(key.contains("id")) {
+                    if(key.eq("id")) {
 
                     } else {
                         update.push_str(format!("{} = '{}', ",key, value.to_string()).as_str());
                     }
                 }
+                // update = update.replace("\\", "");
                 update = update.replace("\"", "");
                
                 let last_update = &update[..update.len() - 2];
