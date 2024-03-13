@@ -6,6 +6,7 @@ pub mod emotion;
 pub mod gesture;
 pub mod iot;
 pub mod iot_behavior;
+pub mod org;
 use axum::{
    response::Html,
 };

@@ -19,6 +19,7 @@ pub fn init() -> axum::Router {
         .route("/greet", get(|| async { "Hello, axum World!🌱🌎" }))
         .nest("/index", controller::index::index_router())
         .nest("/tag",controller::tag::index_router())
+        .nest("/org",controller::org::index_router())
         .nest("/three",controller::three::index_router())
         .nest("/emotion",controller::emotion::index_router())
         .nest("/gesture",controller::gesture::index_router())

@@ -3,6 +3,7 @@ pub mod gesture;
 pub mod iot;
 pub mod iot_behavior;
 pub mod tag;
+pub mod org;
 
 use crate::{dbstate::DbState, AppError, Result};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
@@ -92,7 +93,7 @@ where
                 let _rows = result.rows_affected();
                 if _rows == 0 {
                     let code = AppError::from_err(
-                        format!("库里不存在这个id，无法删除").into(),
+                        format!("库里不存在这个id，无法修改").into(),
                         crate::AppErrorType::Database,
                     );
                     return Err(code);
