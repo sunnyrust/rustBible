@@ -22,7 +22,10 @@ Rust编译占得硬盘空间只能用恐怖来形容，我一共也就写了50�
 
 <https://crates.io/crates/cargo-clean-recursive> 使用这个工具来解决。
 
-
+```shell
+$ cargo install cargo-clean-recursive
+$ cargo clean-recursive
+```
 
 
 
